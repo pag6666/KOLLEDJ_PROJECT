@@ -1,9 +1,18 @@
 import gspread
+import os
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
-USER_GMAIL = "userjson93@gmail.com"
-SERVICE_ACCOUNT_FILE = "gs_credentials.json"
 
+USER_GMAIL = "userjson93@gmail.com"
+dir_parser_box = os.getcwd() + "\\" +"ParserBox"
+SERVICE_ACCOUNT_FILE = dir_parser_box+"\\gs_credentials.json"
+
+if(os.path.exists(dir_parser_box) == False):
+    os.mkdir(dir_parser_box)
+    exit(1)
+
+print(os.getcwd() + SERVICE_ACCOUNT_FILE)
+print("Get: " + SERVICE_ACCOUNT_FILE)
 scope = ['https://www.googleapis.com/auth/spreadsheets',
          "https://www.googleapis.com/auth/drive"]
 
@@ -21,18 +30,23 @@ NameSheet = "FirstSheet"
 
 def ClientOpen(nameSheet):
 
-  return client.open(nameSheet).sheet1
+  return client.open(nameSheet)
 
+def GetClient():
+    return client
 #db = pd.read_csv("C:\\Users\\pargev\\Desktop\\task1\\source\\prices.csv")
 
 #sheet.update([db.columns.values.tolist()] + db.values.tolist())
 def CreateSheet(nameSheet):
-    return client.create(nameSheet)
+    sheet = client.create(nameSheet)
+    sheet.share(USER_GMAIL, perm_type = "user", role = "writer")
+    return sheet
+
 
 def SetNewData(filePath:str, nameSheet:str):
     db = pd.read_csv(filePath)
 
-    ClientOpen(nameSheet).update([db.columns.values.tolist()] + db.values.tolist())
+    ClientOpen(nameSheet).sheet1.update([db.columns.values.tolist()] + db.values.tolist())
 
 def PrintAllFiles():
     file_list = client.list_spreadsheet_files()
