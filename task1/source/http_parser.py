@@ -18,7 +18,7 @@ def get_price_from_yandex_market(url):
     soup = BeautifulSoup(response.text, 'html.parser')
     
     # Извлекаем цену
-    price_tag = soup.find('s', class_='_347Sb')  # Замените на актуальный класс для цены
+    price_tag = soup.find('span', class_='_2r9lI')  # Замените на актуальный класс для цены
     if price_tag:
         price = price_tag.text.strip()
         return price
@@ -43,7 +43,7 @@ def get_price_from_lenta(url):
     soup = BeautifulSoup(response.text, 'html.parser')
     
     # Извлекаем цену
-    price_tag = soup.find('div', class_='old-price-product ng-star-inserted')  # Замените на актуальный класс для цены
+    price_tag = soup.find('span', class_='main-price title-28-20 __accent')  # Замените на актуальный класс для цены
     if price_tag:
         
         price = price_tag.text.strip()

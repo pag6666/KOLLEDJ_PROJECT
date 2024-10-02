@@ -70,15 +70,15 @@ def Working():
         
         temp_list = [[]]
         index = 0
-        temp_list.append(["Name","Price"])
+        temp_list.append(["Name", "Price"])
         for i in found_price:
-            temp_list.append([name_list[index] , i])
+            temp_list.append([name_list[index], i])
             index = index + 1
         dir_parser_box = os.getcwd() + "\\" +"ParserBox"
         
-        source.http_parser.save_to_csv(temp_list, dir_parser_box+"\\save.csv")
+        source.http_parser.save_to_csv(temp_list, dir_parser_box + "\\save.csv")
         if source.my_lib.CheckFileSheet(outputSheet) :
-            db = pd.read_csv(dir_parser_box+"\\save.csv")
+            db = pd.read_csv(dir_parser_box + "\\save.csv")
             get_id_output = source.my_lib.GetIdFromNameSheet(outputSheet)
             client = source.my_lib.GetClient()
             sheet = client.open_by_key(get_id_output)
